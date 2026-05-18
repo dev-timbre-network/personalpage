@@ -4,6 +4,49 @@ When given a presales / solutions / GTM problem, respond in 90 to 140 words. Sta
 
 If the input isn't actually a presales / solutions / GTM problem, redirect in one sentence: "Throw me a real one — what's the deal motion, who's the buyer, where's it stuck?"`;
 
+async function logToD1(env, { name, question, response, userAgent, ip, country, city }) {
+  try {
+    await env.DB.prepare(
+      `INSERT INTO asks (name, question, response, user_agent, ip, country, city)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)`
+    ).bind(name || null, question, response, userAgent || null, ip || null, country || null, city || null).run();
+  } catch (err) {
+    console.error('D1 write failed:', err);
+  }
+}
+
+async function sendEmail(env, { name, question, response, userAgent, country, city }) {
+  try {
+    const from = name ? `${name}` : 'Anonymous';
+    const location = [city, country].filter(Boolean).join(', ') || 'Unknown';
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'onboarding@resend.dev',
+        to: 'dantowers@gmail.com',
+        subject: `Ask Me: ${question.slice(0, 60)}${question.length > 60 ? '...' : ''}`,
+        html: `
+          <p><strong>From:</strong> ${from}</p>
+          <p><strong>Location:</strong> ${location}</p>
+          <p><strong>User Agent:</strong> ${userAgent || 'Unknown'}</p>
+          <hr>
+          <p><strong>Question:</strong></p>
+          <p>${question.replace(/\n/g, '<br>')}</p>
+          <hr>
+          <p><strong>Response:</strong></p>
+          <p>${response.replace(/\n/g, '<br>')}</p>
+        `,
+      }),
+    });
+  } catch (err) {
+    console.error('Resend email failed:', err);
+  }
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -15,9 +58,16 @@ export async function onRequestPost(context) {
   }
 
   const question = (body.question || '').trim();
+  const name = (body.name || '').trim().slice(0, 100);
+
   if (!question || question.length > 1200) {
     return Response.json({ error: 'Invalid input.' }, { status: 400 });
   }
+
+  const userAgent = request.headers.get('User-Agent');
+  const ip = request.headers.get('CF-Connecting-IP');
+  const country = request.cf?.country || null;
+  const city = request.cf?.city || null;
 
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -41,5 +91,13 @@ export async function onRequestPost(context) {
   }
 
   const data = await resp.json();
-  return Response.json({ text: data.content[0].text });
+  const responseText = data.content[0].text;
+
+  // Log and notify in background — don't block the response
+  context.waitUntil(Promise.all([
+    logToD1(env, { name, question, response: responseText, userAgent, ip, country, city }),
+    sendEmail(env, { name, question, response: responseText, userAgent, country, city }),
+  ]));
+
+  return Response.json({ text: responseText });
 }

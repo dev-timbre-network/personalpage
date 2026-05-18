@@ -1018,6 +1018,7 @@
           <span class="spacer"></span>
           <span id="charcount">0 / 1200</span>
         </div>
+        <input id="askName" type="text" maxlength="100" placeholder="> Your name or handle (optional)" style="width:100%;background:transparent;border:none;border-bottom:1px solid #2a2c34;color:var(--bone);font-family:'IBM Plex Mono',monospace;font-size:13px;padding:0.75rem 1.1rem;outline:none;letter-spacing:0.04em;" />
         <textarea id="askInput" maxlength="1200" placeholder="> Tell me what's stuck.
 > Who's the buyer, what's the platform, where's the deal hung up.
 > The more specific, the better the take."></textarea>
@@ -1530,6 +1531,7 @@
   document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
 
   // ── ASK ME ──
+  const askName   = document.getElementById('askName');
   const askInput  = document.getElementById('askInput');
   const askOut    = document.getElementById('askOut');
   const askRun    = document.getElementById('askRun');
@@ -1574,7 +1576,7 @@
       const resp = await fetch('/api/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: q }),
+        body: JSON.stringify({ question: q, name: askName.value.trim() }),
       });
       const data = await resp.json();
       if (!resp.ok) throw new Error(data.error || 'Request failed');
