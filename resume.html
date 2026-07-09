@@ -24,6 +24,7 @@
     --blue-2:     #2a4d7a;
     --paper:      #f1ead8;
     --punch:      #c25033;
+    --content-w:  min(1600px, 92vw);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -69,7 +70,7 @@
   .tb-meta { color: var(--muted); text-align: right; }
 
   main { padding-top: 2.5rem; }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+  .wrap { max-width: var(--content-w); margin: 0 auto; padding: 0 2rem; }
 
   /* ── PAGE HEAD ── */
   .res-eyebrow {
@@ -112,7 +113,7 @@
 
   /* dossier strip (matches site) */
   .dossier {
-    max-width: 1280px;
+    max-width: var(--content-w);
     margin: 0 0 3rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -189,7 +190,7 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .footer-inner { max-width: var(--content-w); margin: 0 auto; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   footer b { color: #b9b196; font-weight: 500; }
   footer .ft-link { color: #b9b196; }
   footer .ft-link:hover, footer .ft-link:hover b { color: var(--punch); }

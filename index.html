@@ -24,6 +24,7 @@
     --blue-2:     #2a4d7a;
     --paper:      #f1ead8;
     --punch:      #c25033;
+    --content-w:  min(1600px, 92vw);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,7 +75,7 @@
   /* ── COMMON LAYOUT ── */
   main { padding-top: 44px; }
   section { padding: 5rem 2rem; border-bottom: 1px solid var(--rule); }
-  .wrap { max-width: 1280px; margin: 0 auto; }
+  .wrap { max-width: var(--content-w); margin: 0 auto; }
 
   .sec-head {
     display: grid;
@@ -106,7 +107,7 @@
     position: relative;
   }
   .hero-grid {
-    max-width: 1280px;
+    max-width: var(--content-w);
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
@@ -218,7 +219,7 @@
 
   /* tiny dossier strip below hero */
   .dossier {
-    max-width: 1280px;
+    max-width: var(--content-w);
     margin: 2.5rem auto 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -608,7 +609,7 @@
     border-top: 1px solid #2a2c34;
   }
   .footer-inner {
-    max-width: 1280px; margin: 0 auto;
+    max-width: var(--content-w); margin: 0 auto;
     display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   }
   footer b { color: #b9b196; font-weight: 500; }
