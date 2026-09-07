@@ -697,6 +697,51 @@
     padding-top: 0.85rem;
     border-top: 1px solid var(--rule);
   }
+  .build-status.oss .dot { background: var(--blue); animation: none; }
+  .build-status.oss { color: var(--blue); }
+
+  /* ── PROJECTS (open source) ── */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .proj-shots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+    margin: 1.5rem 0 1.75rem;
+  }
+  .proj-shot {
+    display: block;
+    border: 1px solid var(--rule-2);
+    background: var(--bone-2);
+    transition: border-color 0.15s, transform 0.2s, box-shadow 0.2s;
+  }
+  .proj-shot:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(21,22,26,0.1);
+  }
+  .proj-shot-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--rule-2);
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .proj-shot-bar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--oxblood); }
+  .proj-shot-bar .dot.b { background: var(--blue); }
+  .proj-shot-bar .dot.g { background: #2e8a4a; }
+  .proj-shot-bar span { color: var(--ink-2); font-weight: 600; letter-spacing: 0.06em; }
+  .proj-shot img { display: block; width: 100%; height: auto; }
+  .proj-shot figcaption {
+    padding: 0.55rem 0.7rem 0.65rem;
+    font-size: 11px; color: var(--muted); line-height: 1.5;
+    border-top: 1px solid var(--rule-2);
+  }
 
   /* ── POSTER WALL ── */
   .poster-wall {
@@ -823,6 +868,8 @@
     .ask-grid { grid-template-columns: 1fr; }
     .cap-grid { grid-template-columns: 1fr; }
     .now-grid { grid-template-columns: 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .proj-shots { grid-template-columns: 1fr; }
     .arc-row, .arc-head { grid-template-columns: 1fr; gap: 0.25rem; padding-left: 0; }
     .arc-head { display: none; }
     .arc-row { padding: 1.25rem 0; }
@@ -842,9 +889,10 @@
     <a href="#stories"><span class="idx">01</span> THE&nbsp;WORK</a>
     <a href="#ask"><span class="idx">02</span> ASK&nbsp;ME</a>
     <a href="#building"><span class="idx">03</span> BUILDING</a>
-    <a href="#arc"><span class="idx">04</span> THE&nbsp;ARC</a>
-    <a href="#contact"><span class="idx">05</span> CONTACT</a>
-    <a href="/resume"><span class="idx">06</span> RESUME</a>
+    <a href="#projects"><span class="idx">04</span> PROJECTS</a>
+    <a href="#arc"><span class="idx">05</span> THE&nbsp;ARC</a>
+    <a href="#contact"><span class="idx">06</span> CONTACT</a>
+    <a href="/resume"><span class="idx">07</span> RESUME</a>
   </nav>
   <div class="tb-meta"><span class="dot"></span>OPEN&nbsp;TO&nbsp;CONVOS · WESTFORD&nbsp;MA</div>
 </header>
@@ -1189,11 +1237,94 @@
   </div>
 </section>
 
+<!-- PROJECTS (open source) -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="sec-tag">[ SEC.04 ]</span>
+      <h2 class="sec-title">PROJECTS<span class="ox">.</span></h2>
+      <span class="sec-meta">ONE REPO SO FAR · MORE WHEN THEY'RE USEFUL</span>
+    </div>
+
+    <p class="sec-intro fade-in">Not everything I build is a product with a business model. Some of it is a tool I actually needed, cleaned up enough to hand to someone else.</p>
+
+    <div class="proj-grid">
+
+      <article class="build-card fade-in">
+        <div class="build-head">
+          <span class="build-tag">PROJECT 01</span>
+          <span class="build-status oss"><span class="dot"></span>PUBLIC REPO · OPEN SOURCE</span>
+        </div>
+        <h3>REVERSE SEARCH<span class="ox">.</span></h3>
+        <p class="build-sub">The presales research discipline, pointed at my own job search.</p>
+        <p>Local, single-user, and deliberately dumb about the internet — no scraping, no background collection. Every candidate profile, every LinkedIn screenshot, every job posting in it is something I imported or pasted in myself. If it's not in there, it's because I never gave it to the app.</p>
+        <p>Import a resume and a LinkedIn export to build a candidate profile, then a company list to track. For each company, screenshot the people who actually work there and it clusters them into role groups and scores how closely their backgrounds resemble mine — plus an honest confidence note on whether the sample's big enough to trust yet. Paste in a job posting and it returns a fit score, resume-positioning gaps, and outreach ranked by real warm connections, not just who looks good on paper.</p>
+        <p>I've spent thirty years building the tooling that helps a seller walk into a room with real data behind the pitch. This time the room was my own job search, and nobody was going to build that tool for me — so I built it, same discipline, pointed inward. Interview prep compounds round over round instead of starting cold each time, and every LLM call is cost-tracked against real API spend, because I know exactly how fast that adds up.</p>
+
+        <div class="proj-shots">
+          <a class="proj-shot" href="projects/reverse-search/Overview.png" target="_blank" rel="noopener">
+            <figure>
+              <div class="proj-shot-bar"><span class="dot"></span><span class="dot b"></span><span class="dot g"></span><span>dashboard</span></div>
+              <img loading="lazy" src="projects/reverse-search/Overview.png" alt="Reverse Search dashboard — ranked company fit, staleness flags, do-next suggestions">
+              <figcaption>Ranked fit across every tracked company, plus what's stale and what's worth opening next.</figcaption>
+            </figure>
+          </a>
+          <a class="proj-shot" href="projects/reverse-search/Company.png" target="_blank" rel="noopener">
+            <figure>
+              <div class="proj-shot-bar"><span class="dot"></span><span class="dot b"></span><span class="dot g"></span><span>company detail</span></div>
+              <img loading="lazy" src="projects/reverse-search/Company.png" alt="Reverse Search company detail — role clusters and fit, captured people, do-next actions">
+              <figcaption>Role clusters above the people who produced them — the finding above the evidence.</figcaption>
+            </figure>
+          </a>
+          <a class="proj-shot" href="projects/reverse-search/ProfileCluster.png" target="_blank" rel="noopener">
+            <figure>
+              <div class="proj-shot-bar"><span class="dot"></span><span class="dot b"></span><span class="dot g"></span><span>cluster detail</span></div>
+              <img loading="lazy" src="projects/reverse-search/ProfileCluster.png" alt="Reverse Search cluster detail — who's in the cluster and why it maps to the candidate">
+              <figcaption>The reasoning behind a cluster score — what it is, and how it maps to me.</figcaption>
+            </figure>
+          </a>
+          <a class="proj-shot" href="projects/reverse-search/PostedJobAnalysis.png" target="_blank" rel="noopener">
+            <figure>
+              <div class="proj-shot-bar"><span class="dot"></span><span class="dot b"></span><span class="dot g"></span><span>job posting</span></div>
+              <img loading="lazy" src="projects/reverse-search/PostedJobAnalysis.png" alt="Reverse Search job posting analysis — role fit score, ranked gaps, outreach targets and draft">
+              <figcaption>Role fit against a real posting, ranked gaps, and an outreach draft grounded in what's captured.</figcaption>
+            </figure>
+          </a>
+        </div>
+
+        <div class="build-list">
+          <div class="bl-row"><span class="ix">01</span><span>Candidate profile from resume + LinkedIn export, reviewed before it overwrites anything</span></div>
+          <div class="bl-row"><span class="ix">02</span><span>Role-clustering fit analysis on captured profiles, not keyword matching</span></div>
+          <div class="bl-row"><span class="ix">03</span><span>Outreach ranked by real warm connections, not cluster fit alone</span></div>
+          <div class="bl-row"><span class="ix">04</span><span>Interview prep that compounds round over round, per company</span></div>
+          <div class="bl-row"><span class="ix">05</span><span>Real Anthropic API spend tracked per activity, cost estimate before every bulk run</span></div>
+        </div>
+        <div class="build-stack">
+          <span class="am-pill b">Next.js</span>
+          <span class="am-pill">TypeScript</span>
+          <span class="am-pill">Prisma</span>
+          <span class="am-pill">SQLite</span>
+          <span class="am-pill b">Claude API</span>
+          <span class="am-pill">Tailwind</span>
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <a class="btn" href="https://github.com/dantowers-labs/reverse-search" target="_blank" rel="noopener">VIEW ON GITHUB <span class="k">→</span></a>
+        </div>
+      </article>
+
+    </div>
+
+    <p style="margin-top: 1.75rem; font-size: 12px; color: var(--muted); letter-spacing: 0.06em; max-width: 64ch;">
+      <span style="color: var(--oxblood); font-weight: 600;">// </span>First public repo. More like this get released once they're actually useful to someone besides me.
+    </p>
+  </div>
+</section>
+
 <!-- ARC -->
 <section id="arc">
   <div class="wrap">
     <div class="sec-head fade-in">
-      <span class="sec-tag">[ SEC.04 ]</span>
+      <span class="sec-tag">[ SEC.05 ]</span>
       <h2 class="sec-title">THE ARC<span class="ox">.</span></h2>
       <span class="sec-meta">THIRTY YEARS · TWO HALVES · ONE THREAD</span>
     </div>
@@ -1536,7 +1667,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="wrap">
-    <span class="sec-tag" style="display: inline-block; margin-bottom: 1.5rem;">[ SEC.05 ] · LET'S TALK</span>
+    <span class="sec-tag" style="display: inline-block; margin-bottom: 1.5rem;">[ SEC.06 ] · LET'S TALK</span>
     <h2>Need someone who can <span class="ox">build the thing</span><br>and then sell it<span class="ox">?</span></h2>
     <p>
       If you're building a presales function, launching a platform, or need someone who can walk into a room and make a complex data architecture feel inevitable — that's the conversation I want to have.
